@@ -1,0 +1,24 @@
+{
+  "name": "parking-rules-system-api",
+  "version": "1.0.0",
+  "main": "app.js",
+  "repository": "https://github.com/DemyanchikVadim/parking-rules-system-api.git",
+  "author": "DemyanchikVadim <vadim.demyanchik@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon --exec babel-node -- ./app.js"
+  },
+  "dependencies": {
+    "bcrypt": "^1.0.2",
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "jsonwebtoken": "^7.3.0",
+    "mongoose": "^4.9.0",
+    "multer": "^1.3.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.0",
+    "babel-preset-es2015": "^6.24.0",
+    "nodemon": "^1.11.0"
+  }
+}
