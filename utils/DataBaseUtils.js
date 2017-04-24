@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import fs from 'fs';
+import bcrypt from 'bcrypt';
 import '../models/Report';
 import '../models/User';
 import { dbUrl } from '../etc/config.json';
@@ -10,6 +11,18 @@ const User = mongoose.model('User');
 export function setUpConnection() {
   mongoose.Promise = global.Promise;
   mongoose.connect(dbUrl);
+}
+
+export function createUser(data) {
+  const { username, email, password } = data;
+  const passwordHash = bcrypt.hashSync(password, 10);
+  const user = new User({
+    username: username,
+    email: email,
+    password: passwordHash,
+    createdAt: new Date(),
+  });
+  return user.save();
 }
 
 export function listReports() {

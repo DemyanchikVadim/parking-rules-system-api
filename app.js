@@ -5,8 +5,9 @@ import multer from 'multer';
 import jwt from 'jsonwebtoken';
 import * as db from './utils/DataBaseUtils';
 import { jwtSecret } from './etc/config.json';
+import validateUsersData from './utils/validations/validateUsersData';
 
-const upload = multer({ dest: __dirname+'/upload' });
+const upload = multer({ dest: __dirname + '/upload' });
 const app = express();
 
 db.setUpConnection();
@@ -14,6 +15,24 @@ db.setUpConnection();
 app.use(bodyParser.json());
 
 app.post('/api/upload', upload.single('file'), db.uploadImage);
+
+app.post('/api/users', (req, res) => {
+  validateUsersData(req.body).then(({ errors, isValid }) => {
+    if (isValid) {
+      db.createUser(req.body)
+        .then(data => res.send(data))
+        .catch(() => {
+          res.status(500).json({
+            errors: {
+              global: 'Something is wrong here',
+            },
+          });
+        });
+    } else {
+      res.status(400).json({ errors });
+    }
+  });
+});
 
 app.post('/api/auth', (req, res) => {
   db.authUser(req.body)
