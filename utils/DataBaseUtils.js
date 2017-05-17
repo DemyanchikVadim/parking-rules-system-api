@@ -39,6 +39,7 @@ export function authUser(data) {
 }
 
 export function uploadImage(req, res) {
+
   function base64(file) {
     const bitmap = fs.readFileSync(file);
     return new Buffer(bitmap).toString('base64');
@@ -49,12 +50,14 @@ export function uploadImage(req, res) {
   const base64str = base64(path);
 
   const report = new Report({
-    description: 'Улица Ожешко 22',
-    tags: 'Нарушение',
+    type: req.body.type,
     image: base64str,
+    street: req.body.street,
+    number: req.body.number,
+    comment: req.body.comment,
     createdAt: new Date(),
   });
-    
+
   fs.unlinkSync(path);
   report.save();
 
